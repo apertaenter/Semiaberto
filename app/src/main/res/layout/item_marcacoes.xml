@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TableRow
+        android:id="@+id/idTableRow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="5dp">
+
+
+        <TextView
+            android:id="@+id/sentidoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal" />
+
+
+        <TextView
+            android:id="@+id/marcacaoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:layout_weight="2"
+            android:textSize="24sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal" />
+
+        <ImageView
+            android:id="@+id/excluirMarcacaoImageView"
+            android:src="@mipmap/excluir"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
+
+    </TableRow>
+
+</TableLayout>

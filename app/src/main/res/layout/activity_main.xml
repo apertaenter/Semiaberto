@@ -1,0 +1,185 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/orange_finep"
+        android:elevation="4dp" />
+
+    <RelativeLayout
+        android:id="@+id/topoLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/gray_800"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray_800"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/atrasoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/atraso_text"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:textStyle="bold"
+                android:textColor="@color/gray_white"
+                />
+
+            <TextView
+                android:id="@+id/debitoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/debito_text"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/gray_white"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/saioAsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/saioas_text"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/saioas_text_view" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/meioLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#EEEEEE"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="@string/jornada_text_view"
+                android:textColor="@color/green_finep"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <RadioGroup
+                android:id="@+id/jornadas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="30dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp">
+
+                <RadioButton
+                    android:id="@+id/jornada5h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5h" />
+
+                <RadioButton
+                    android:id="@+id/jornada6h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6h" />
+
+                <RadioButton
+                    android:id="@+id/jornada8h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="8h" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/adicionarMarcacaoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:background="@color/green_finep"
+                android:onClick="adicionarMarcacao"
+                android:padding="10dp"
+                android:text="@string/adicionar_marcacao"
+                android:textColor="@color/white" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/green_finep_64"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/green_finep"
+                android:gravity="center_horizontal"
+                android:text="@string/titulo_marcacoes"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/marcacoesListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rodapeLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
+
+    </LinearLayout>
+
+</LinearLayout>
