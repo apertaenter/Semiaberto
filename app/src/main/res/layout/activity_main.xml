@@ -79,62 +79,64 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/green_finep"
                 android:gravity="center_horizontal"
-                android:padding="5dp"
-                android:text="@string/jornada_text_view"
-                android:textColor="@color/green_finep"
+                android:text="@string/opcoes_text_view"
+                android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <Switch
+                android:text="Contrato de 6h?"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/contratoSwitch"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quero trabalhar ..."
+                android:textSize="16sp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:textColor="@android:color/black"/>
 
             <RadioGroup
                 android:id="@+id/jornadas"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="30dp"
-                android:paddingTop="10dp"
-                android:paddingLeft="10dp">
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:gravity="center">
+
 
                 <RadioButton
                     android:id="@+id/jornada5h"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5h" />
+                    android:text="5h"
+                    android:textSize="16sp"/>
 
                 <RadioButton
                     android:id="@+id/jornada6h"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6h" />
+                    android:text="6h"
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/jornada8h"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="8h" />
+                    android:text="8h"
+                    android:textSize="16sp" />
             </RadioGroup>
-
-            <Button
-                android:id="@+id/adicionarMarcacaoButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:background="@color/green_finep"
-                android:onClick="adicionarMarcacao"
-                android:padding="10dp"
-                android:text="@string/adicionar_marcacao"
-                android:textColor="@color/white" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical" />
-
 
         </LinearLayout>
 
@@ -144,6 +146,11 @@
             android:layout_weight="1"
             android:background="@color/green_finep_64"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
 
             <TextView
                 android:layout_width="match_parent"
@@ -159,7 +166,24 @@
                 android:id="@+id/marcacoesListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center_horizontal|center_vertical">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/adicionar"
+                    android:minHeight="50dp"
+                    android:minWidth="50dp"
+                    android:layout_margin="5dp"
+                    android:onClick="adicionarMarcacao"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

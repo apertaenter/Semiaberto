@@ -9,4 +9,5 @@
     <string name="jornada_text_view">Jornada</string>
     <string name="atraso_text">atraso</string>
     <string name="debito_text">débito</string>
+    <string name="opcoes_text_view">Opções</string>
 </resources>
