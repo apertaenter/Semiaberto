@@ -15,6 +15,7 @@ public class JornadaOnCheckedChangeListener  implements RadioGroup.OnCheckedChan
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
         int jornada;
         switch(checkedId) {
+            case R.id.jornada4h : jornada=4; break;
             case R.id.jornada5h : jornada=5; break;
             case R.id.jornada6h : jornada=6; break;
             default: jornada=8;

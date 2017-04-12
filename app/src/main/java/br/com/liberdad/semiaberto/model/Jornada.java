@@ -2,7 +2,7 @@ package br.com.liberdad.semiaberto.model;
 
 public enum Jornada {
 
-    CINCO(5, 15), SEIS(6, 15), OITO(8, 60);
+    QUATRO(4,15), CINCO(5, 15), SEIS(6, 15), OITO(8, 60);
 
     private final int jornada;
     private final int almoco;

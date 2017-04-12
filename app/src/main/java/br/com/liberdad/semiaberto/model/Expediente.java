@@ -13,7 +13,9 @@ public class Expediente {
 
     private List<Date> marcacoes = new ArrayList<Date>();
 
-    private Jornada jornada;
+    private Jornada jornada = Jornada.OITO;
+
+    private Contrato contrato = Contrato.OITO;
 
     private final Date INICIO_EXPEDIENTE;
 
@@ -76,8 +78,17 @@ public class Expediente {
 
     public void setJornada(int jornada) {
 
+        if (contrato == Contrato.OITO && jornada == 4)
+            throw new IllegalArgumentException();
+
+        if (contrato == Contrato.SEIS && jornada == 8)
+            throw new UnsupportedOperationException();
+
         switch (jornada) {
 
+            case 4:
+                this.jornada = Jornada.QUATRO;
+                break;
             case 5:
                 this.jornada = Jornada.CINCO;
                 break;
@@ -91,6 +102,20 @@ public class Expediente {
                 throw new IllegalArgumentException();
         }
 
+    }
+
+    public void setContrato(int contrato){
+
+        if (jornada == Jornada.QUATRO && contrato == 8)
+            throw new IllegalArgumentException();
+
+        if (jornada == Jornada.OITO && contrato == 6)
+            throw new UnsupportedOperationException();
+
+        if (contrato == 6)
+            this.contrato = Contrato.SEIS;
+        else
+            this.contrato = Contrato.OITO;
     }
 
     public Date getUltimaSaidaProposta() {
@@ -133,9 +158,9 @@ public class Expediente {
         }
 
         // Obter complemento de nucleo
-        if ((calcularPresencasNucleo() - pnaAlmoco) < 5 * umaHora) {
+        if ((calcularPresencasNucleo() - pnaAlmoco) < contrato.getNucleo() * umaHora) {
 
-            complementoNucleo = (5 * umaHora) - (calcularPresencasNucleo() - pnaAlmoco); // Total menos o que já cumpriu
+            complementoNucleo = (contrato.getNucleo() * umaHora) - (calcularPresencasNucleo() - pnaAlmoco); // Total menos o que já cumpriu
 
             // Verificar se existe horas disponíveis para cumprir o horário núcleo
             if (FIM_NUCLEO.before(ultimaMarcacao)) { // Não existe mais núcleo a ser cumprido

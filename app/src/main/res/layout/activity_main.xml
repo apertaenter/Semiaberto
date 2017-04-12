@@ -110,10 +110,17 @@
                 android:id="@+id/jornadas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_margin="5dp"
                 android:gravity="center">
 
+                <RadioButton
+                    android:id="@+id/jornada4h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4h"
+                    android:textSize="16sp"
+                    android:enabled="false"/>
 
                 <RadioButton
                     android:id="@+id/jornada5h"

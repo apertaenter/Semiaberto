@@ -6,8 +6,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView atrasoTextView;
     private TextView debitoTextView;
     private RadioGroup.OnCheckedChangeListener jornadaOnCheckedChangeListener;
+    private CompoundButton.OnCheckedChangeListener contratoOnCheckedChangeListener;
     private AdView mAdView;
 
     private Expediente expediente;
@@ -53,13 +57,18 @@ public class MainActivity extends AppCompatActivity {
         RadioGroup jornadasRadioGroup = (RadioGroup) findViewById(R.id.jornadas);
         jornadasRadioGroup.setOnCheckedChangeListener(jornadaOnCheckedChangeListener);
 
+        contratoOnCheckedChangeListener = new ContratoOnCheckedChangeListener(this);
+        Switch contratoSwitch = (Switch) findViewById(R.id.contratoSwitch);
+        contratoSwitch.setOnCheckedChangeListener(contratoOnCheckedChangeListener);
+
         listViewAdapter = new ListViewAdapter(this);
         marcacoesListView.setAdapter(listViewAdapter);
         marcacoesListView.setDivider(null);
         marcacoesListView.setDividerHeight(0);
 
         expediente = new Expediente();
-        expediente.setJornada(8);
+        //expediente.setJornada(8);
+        //expediente.setContrato(8);
 
         mAdView = (AdView) findViewById(R.id.adView);
 
@@ -131,14 +140,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     public void setJornada(int jornada) {
 
         expediente.setJornada(jornada);
         atualizarSaioAs(expediente.getUltimaSaidaProposta());
         verificarAtrasosEDebitos();
-
     }
 
+    public void setContrato(int contrato) {
+
+        RadioButton jornada4RadioButton = (RadioButton) findViewById(R.id.jornada4h);
+        RadioButton jornada5RadioButton = (RadioButton) findViewById(R.id.jornada5h);
+        RadioButton jornada6RadioButton = (RadioButton) findViewById(R.id.jornada6h);
+        RadioButton jornada8RadioButton = (RadioButton) findViewById(R.id.jornada8h);
+
+        if (contrato == 8) {
+            if (jornada4RadioButton.isChecked())
+                jornada5RadioButton.setChecked(true);
+            jornada4RadioButton.setEnabled(false);
+            jornada8RadioButton.setEnabled(true);
+        }else{
+            if (jornada8RadioButton.isChecked())
+                jornada6RadioButton.setChecked(true);
+            jornada4RadioButton.setEnabled(true);
+            jornada8RadioButton.setEnabled(false);
+        }
+
+        expediente.setContrato(contrato);
+        atualizarSaioAs(expediente.getUltimaSaidaProposta());
+        verificarAtrasosEDebitos();
+
+    }
     public void atualizarSaioAs(Date horario) {
 
         if (null == horario) {
