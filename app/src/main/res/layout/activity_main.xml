@@ -13,6 +13,7 @@
         android:background="@color/orange_finep"
         android:elevation="4dp" />
 
+    <!-- abrindo o topo -->
     <RelativeLayout
         android:id="@+id/topoLinearLayout"
         android:layout_width="match_parent"
@@ -31,22 +32,21 @@
                 android:id="@+id/atrasoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/atraso_text"
                 android:layout_weight="1"
                 android:gravity="bottom"
-                android:textStyle="bold"
+                android:text="@string/atraso_text"
                 android:textColor="@color/gray_white"
-                />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/debitoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/debito_text"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/gray_white"/>
+                android:text="@string/debito_text"
+                android:textColor="@color/gray_white"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -54,16 +54,17 @@
             android:id="@+id/saioAsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/saioas_text"
             android:textColor="@color/teal_200"
             android:textSize="@dimen/saioas_text_view" />
 
-
     </RelativeLayout>
+    <!-- fechando o topo -->
 
+    <!-- abrindo a parte central -->
     <LinearLayout
         android:id="@+id/meioLinearLayout"
         android:layout_width="match_parent"
@@ -71,6 +72,7 @@
         android:layout_weight="4"
         android:orientation="horizontal">
 
+        <!-- abrindo o painel esquerdo -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -89,128 +91,225 @@
                 android:textStyle="bold" />
 
             <Switch
-                android:text="Contrato de 6h?"
+                android:id="@+id/contratoSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/contratoSwitch"
-                android:layout_margin="15dp"
                 android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:text="6h?"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tempoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quero trabalhar ..."
-                android:textSize="16sp"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
-                android:textColor="@android:color/black"/>
-
-            <RadioGroup
-                android:id="@+id/jornadas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_margin="5dp"
-                android:gravity="center">
+                android:text="00:00"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
-                <RadioButton
-                    android:id="@+id/jornada4h"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4h"
-                    android:textSize="16sp"
-                    android:enabled="false"/>
-
-                <RadioButton
-                    android:id="@+id/jornada5h"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5h"
-                    android:textSize="16sp"/>
-
-                <RadioButton
-                    android:id="@+id/jornada6h"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="6h"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/jornada8h"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="8h"
-                    android:textSize="16sp" />
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/green_finep_64"
-            android:orientation="vertical">
-            <LinearLayout
+            <Button
+                android:id="@+id/menosButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:text="-"
+                android:onClick="decrementarSeekBar" />
 
-            <TextView
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/maisButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/green_finep"
-                android:gravity="center_horizontal"
-                android:text="@string/titulo_marcacoes"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:text="+"
+                android:onClick="incrementarSeekBar" />
 
-            <ListView
-                android:id="@+id/marcacoesListView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            </LinearLayout>
+            <!-- abrindo o seekbar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center_horizontal|center_vertical">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                <SeekBar
+                    android:id="@+id/bancoHorasSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!-- abrindo o label das 8 -->
+                <LinearLayout
+                    android:id="@+id/oitoLinearLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/adicionar"
-                    android:minHeight="50dp"
-                    android:minWidth="50dp"
-                    android:layout_margin="5dp"
-                    android:onClick="adicionarMarcacao"/>
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="10" />
+                </LinearLayout>
+                <!-- fechando o label das 8 -->
+
+                <!-- abrindo o label das 6 -->
+                <LinearLayout
+                    android:id="@+id/seisLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="4" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="6" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="8" />
+
+                </LinearLayout>
+                <!-- fechando o label das 6 -->
 
             </LinearLayout>
+            <!-- fechando o seekbar -->
 
         </LinearLayout>
+        <!-- fechando o painel esquerdo -->
+
+        <!-- abrindo o painel direito -->
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/green_finep_64"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/green_finep"
+                        android:gravity="center_horizontal"
+                        android:text="@string/titulo_marcacoes"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ListView
+                        android:id="@+id/marcacoesListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:gravity="center_horizontal|center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="5dp"
+                        android:minHeight="50dp"
+                        android:minWidth="50dp"
+                        android:onClick="adicionarMarcacao"
+                        android:src="@drawable/adicionar" />
+
+                </LinearLayout>
+
+
+        </LinearLayout>
+        <!-- fechando o painel direito -->
 
     </LinearLayout>
+    <!-- fechando a parte central -->
 
+    <!-- abrindo o ads -->
     <LinearLayout
-        android:id="@+id/rodapeLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+            android:id="@+id/rodapeLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                ads:adSize="SMART_BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
 
     </LinearLayout>
+    <!-- fechando o ads -->
 
 </LinearLayout>

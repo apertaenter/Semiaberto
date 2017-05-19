@@ -11,9 +11,15 @@ public class Expediente {
 
     private boolean atraso;
 
+    private final long CINCO_HORAS_LONG = 5 * 60 * 60 * 1000;
+
+    private final long OITO_HORAS_LONG = 8 * 60 * 60 * 1000;
+
+    private final long NOVE_HORAS_LONG = 9 * 60 * 60 * 1000;
+
     private List<Date> marcacoes = new ArrayList<Date>();
 
-    private Jornada jornada = Jornada.OITO;
+    private Jornada jornada = new Jornada(OITO_HORAS_LONG);
 
     private Contrato contrato = Contrato.OITO;
 
@@ -76,46 +82,35 @@ public class Expediente {
 
     }
 
-    public void setJornada(int jornada) {
+    public void setJornada(long jornada) {
 
-        if (contrato == Contrato.OITO && jornada == 4)
+        /*if (contrato == Contrato.OITO && jornada < CINCO_HORAS_LONG)
             throw new IllegalArgumentException();
 
-        if (contrato == Contrato.SEIS && jornada == 8)
-            throw new UnsupportedOperationException();
+        if (contrato == Contrato.SEIS && jornada > OITO_HORAS_LONG)
+            throw new UnsupportedOperationException();*/
 
-        switch (jornada) {
-
-            case 4:
-                this.jornada = Jornada.QUATRO;
-                break;
-            case 5:
-                this.jornada = Jornada.CINCO;
-                break;
-            case 6:
-                this.jornada = Jornada.SEIS;
-                break;
-            case 8:
-                this.jornada = Jornada.OITO;
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
+        this.jornada.setJornada(jornada);
 
     }
 
     public void setContrato(int contrato){
 
-        if (jornada == Jornada.QUATRO && contrato == 8)
+        /*if (jornada.getJornada() < CINCO_HORAS_LONG && contrato == 8)
             throw new IllegalArgumentException();
 
-        if (jornada == Jornada.OITO && contrato == 6)
-            throw new UnsupportedOperationException();
+        if (jornada.getJornada() > OITO_HORAS_LONG && contrato == 6)
+            throw new UnsupportedOperationException();*/
 
         if (contrato == 6)
             this.contrato = Contrato.SEIS;
         else
             this.contrato = Contrato.OITO;
+    }
+
+    public Contrato getContrato() {
+
+        return contrato;
     }
 
     public Date getUltimaSaidaProposta() {
@@ -134,7 +129,7 @@ public class Expediente {
 
         Date result = calendar.getTime();
 
-        long umaHora = 60 * 60 * 1000;
+        //long umaHora = 60 * 60 * 1000;
         long pnaAlmoco = 0;
         long complementoNucleo = 0;
         long complementoJornada = 0;
@@ -151,16 +146,16 @@ public class Expediente {
         Date ultimaMarcacao = ajustaHorario(marcacoes.get(marcacoes.size()-1));
 
         // Obter PNA de almoço
-        if (calcularAlmoco() < jornada.getAlmoco() * 60 * 1000) {
+        if (calcularAlmoco() < jornada.getAlmoco()) {
 
-            pnaAlmoco = (jornada.getAlmoco() * 60 * 1000) - calcularAlmoco();
+            pnaAlmoco = (jornada.getAlmoco()) - calcularAlmoco();
 
         }
 
         // Obter complemento de nucleo
-        if ((calcularPresencasNucleo() - pnaAlmoco) < contrato.getNucleo() * umaHora) {
+        if ((calcularPresencasNucleo() - pnaAlmoco) < contrato.getNucleo()) {
 
-            complementoNucleo = (contrato.getNucleo() * umaHora) - (calcularPresencasNucleo() - pnaAlmoco); // Total menos o que já cumpriu
+            complementoNucleo = (contrato.getNucleo()) - (calcularPresencasNucleo() - pnaAlmoco); // Total menos o que já cumpriu
 
             // Verificar se existe horas disponíveis para cumprir o horário núcleo
             if (FIM_NUCLEO.before(ultimaMarcacao)) { // Não existe mais núcleo a ser cumprido
@@ -182,9 +177,9 @@ public class Expediente {
         }
 
         // Obter complemento de jornada
-        if (calcularPresencasNucleo() - pnaAlmoco + calcularPresencasNaoNucleo() < jornada.getJornada() * umaHora) {
+        if (calcularPresencasNucleo() - pnaAlmoco + calcularPresencasNaoNucleo() < jornada.getJornada()) {
 
-            complementoJornada = (jornada.getJornada() * umaHora) - (calcularPresencasNucleo() - pnaAlmoco + calcularPresencasNaoNucleo());
+            complementoJornada = jornada.getJornada() - (calcularPresencasNucleo() - pnaAlmoco + calcularPresencasNaoNucleo());
 
             // Verificar se existe horas disponíveis para cumprir a jornada
             if ( FIM_EXPEDIENTE.before(ultimaMarcacao) ) {
@@ -248,7 +243,7 @@ public class Expediente {
             // Verificar o intervalo válido de almoço acumulando valores válidos
             if (excedeTodoIntervaloAlmoco(saida, entrada)) { // F
 
-                result = result + 5 * 60 * 60 * 1000; // +5h
+                result = result + CINCO_HORAS_LONG; // +5h
 
             } else if (estaDentroHorarioAlmoco(saida) && estaDentroHorarioAlmoco(entrada)) { // B
 
@@ -280,7 +275,7 @@ public class Expediente {
 
             if (excedeTodoHorarioNucleo(entrada, saida)) { // F
 
-                result = result + 9 * 60 * 60 * 1000; // +9h
+                result = result + NOVE_HORAS_LONG; // +9h
 
             } else if (estaDentroHorarioNucleo(entrada) && estaDentroHorarioNucleo(saida)) { // B
 

@@ -8,8 +8,8 @@ android {
         applicationId "br.com.liberdad.semiaberto"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 1704121346 // AAMMDDHHMI
-        versionName "1.3.0.1" // a.b.c.d - a: grande versao b: release c: bugfix d: build
+        versionCode 1705191335 // AAMMDDHHMI
+        versionName "1.3.0.2" // a.b.c.d - a: grande versao b: release c: bugfix d: build
     }
     buildTypes {
         release {

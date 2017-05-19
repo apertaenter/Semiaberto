@@ -1,24 +1,33 @@
 package br.com.liberdad.semiaberto.model;
 
-public enum Jornada {
+public class Jornada {
 
-    QUATRO(4,15), CINCO(5, 15), SEIS(6, 15), OITO(8, 60);
+    private long jornada;
+    private long almoco;
 
-    private final int jornada;
-    private final int almoco;
-
-    Jornada(int j, int a) {
-
-        jornada = j;
-        almoco = a;
-
+    public Jornada(long j) {
+        this.jornada = j;
+        calcularAlmoco();
     }
 
-    public int getJornada() {
+    public long getJornada() {
         return jornada;
     }
 
-    public int getAlmoco() {
+    public void setJornada(long j){
+        this.jornada = j;
+        calcularAlmoco();
+    }
+
+    public long getAlmoco() {
         return almoco;
+    }
+
+    private void calcularAlmoco(){
+
+        if (jornada > 6*60*60*1000)
+            almoco = 60*60*1000;
+        else
+            almoco = 15*60*1000;
     }
 }
