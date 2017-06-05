@@ -15,7 +15,10 @@ public class JornadaOnSeekBarChangeListener implements SeekBar.OnSeekBarChangeLi
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
         valorAtual = i;
+        MainActivity mainActivity = (MainActivity) activity;
+        mainActivity.setTempoTextView(valorAtual);
     }
 
     @Override

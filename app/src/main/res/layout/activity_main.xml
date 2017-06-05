@@ -1,138 +1,123 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context="br.com.liberdad.semiaberto.controller.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBar"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/orange_finep"
-        android:elevation="4dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
-    <!-- abrindo o topo -->
-    <RelativeLayout
-        android:id="@+id/topoLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/gray_800"
-        android:orientation="horizontal">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/orange_finep"
+            android:elevation="4dp" />
 
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+        <!-- abrindo o topo -->
+        <RelativeLayout
+            android:id="@+id/topoLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:background="@color/gray_800"
-            android:orientation="vertical"
-            android:paddingLeft="10dp">
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_800"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/atrasoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
+                    android:text="@string/atraso_text"
+                    android:textColor="@color/gray_white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/debitoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/debito_text"
+                    android:textColor="@color/gray_white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/atrasoTextView"
+                android:id="@+id/saioAsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:text="@string/atraso_text"
-                android:textColor="@color/gray_white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/debitoTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/debito_text"
-                android:textColor="@color/gray_white"
-                android:textStyle="bold" />
+                android:text="@string/saioas_text"
+                android:textColor="@color/teal_200"
+                android:textSize="@dimen/saioas_text_view" />
 
-        </LinearLayout>
+        </RelativeLayout>
+        <!-- fechando o topo -->
 
-        <TextView
-            android:id="@+id/saioAsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/saioas_text"
-            android:textColor="@color/teal_200"
-            android:textSize="@dimen/saioas_text_view" />
-
-    </RelativeLayout>
-    <!-- fechando o topo -->
-
-    <!-- abrindo a parte central -->
-    <LinearLayout
-        android:id="@+id/meioLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:orientation="horizontal">
-
-        <!-- abrindo o painel esquerdo -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#EEEEEE"
-            android:orientation="vertical">
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/green_finep">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/green_finep"
-                android:gravity="center_horizontal"
-                android:text="@string/opcoes_text_view"
+                android:text="Banco de horas: "
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Switch
-                android:id="@+id/contratoSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="15dp"
-                android:text="6h?"
-                android:textSize="16sp" />
+                android:textStyle="bold"
+                android:layout_margin="5dp" />
 
             <TextView
                 android:id="@+id/tempoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:text="00:00"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:text="+ 00:00"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp" />
 
-            <Button
-                android:id="@+id/menosButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
+        </LinearLayout>
+
+        <!-- abrindo seekbar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:src="@mipmap/menos"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:onClick="decrementarSeekBar" />
 
-            <Button
-                android:id="@+id/maisButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:onClick="incrementarSeekBar" />
-
-            <!-- abrindo o seekbar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="8"
                 android:orientation="vertical">
-
-                <SeekBar
-                    android:id="@+id/bancoHorasSeekBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
 
                 <!-- abrindo o label das 8 -->
                 <LinearLayout
@@ -143,46 +128,67 @@
                     android:visibility="visible">
 
                     <TextView
+                        android:id="@+id/cincoOitoTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="5" />
+                        android:text="5"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/seisOitoTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="" />
+                        android:text="6"
+                        android:textSize="18sp"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/seteOitoTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="" />
+                        android:text="7"
+                        android:textSize="18sp"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/oitoOitoTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="8" />
+                        android:text="8"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/noveOitoTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="" />
+                        android:text="9"
+                        android:textSize="18sp"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/dezOitoTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="10" />
+                        android:text="10"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:onClick="posicionarSeekBar"/>
                 </LinearLayout>
                 <!-- fechando o label das 8 -->
 
@@ -195,59 +201,124 @@
                     android:visibility="gone">
 
                     <TextView
+                        android:id="@+id/quatroSeisTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="4" />
+                        android:text="4"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/cincoSeisTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="" />
+                        android:text="5"
+                        android:textSize="18sp"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/seisSeisTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="6" />
+                        android:text="6"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/seteSeisTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="" />
+                        android:text="7"
+                        android:textSize="18sp"
+                        android:onClick="posicionarSeekBar"/>
 
                     <TextView
+                        android:id="@+id/oitoSeisTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="8" />
+                        android:text="8"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:onClick="posicionarSeekBar"/>
 
                 </LinearLayout>
                 <!-- fechando o label das 6 -->
 
+                <SeekBar
+                    android:id="@+id/bancoHorasSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"/>
+
             </LinearLayout>
-            <!-- fechando o seekbar -->
+
+            <ImageView
+                android:src="@mipmap/mais"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:onClick="incrementarSeekBar" />
 
         </LinearLayout>
-        <!-- fechando o painel esquerdo -->
+        <!-- fechando seekbar -->
 
-        <!-- abrindo o painel direito -->
+
+        <!-- abrindo a parte central -->
         <LinearLayout
+            android:id="@+id/meioLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <!-- abrindo o painel esquerdo -->
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/green_finep_64"
+                android:background="#EEEEEE"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/green_finep"
+                    android:gravity="center_horizontal"
+                    android:text="@string/opcoes_text_view"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="..."/>
+
+            </LinearLayout>
+            <!-- fechando o painel esquerdo -->
+
+            <!-- abrindo o painel direito -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
@@ -266,50 +337,26 @@
                         android:id="@+id/marcacoesListView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:gravity="center_horizontal|center_vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="5dp"
-                        android:minHeight="50dp"
-                        android:minWidth="50dp"
-                        android:onClick="adicionarMarcacao"
-                        android:src="@drawable/adicionar" />
 
                 </LinearLayout>
 
+            </LinearLayout>
+            <!-- fechando o painel direito -->
 
         </LinearLayout>
-        <!-- fechando o painel direito -->
+        <!-- fechando a parte central -->
+
 
     </LinearLayout>
-    <!-- fechando a parte central -->
 
-    <!-- abrindo o ads -->
-    <LinearLayout
-            android:id="@+id/rodapeLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:backgroundTint="@color/orange_finep"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:onClick="adicionarMarcacao"
+        android:src="@mipmap/entrada_saida" />
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
-
-    </LinearLayout>
-    <!-- fechando o ads -->
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

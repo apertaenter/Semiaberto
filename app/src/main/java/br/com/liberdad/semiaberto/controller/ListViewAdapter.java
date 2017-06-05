@@ -37,13 +37,13 @@ public class ListViewAdapter extends ArrayAdapter<Date> {
             view = convertView;
         }
 
-        TextView sentidoTextView = (TextView) view.findViewById(R.id.sentidoTextView);
+        ImageView sentidoImageView = (ImageView) view.findViewById(R.id.sentidoImageView);
         ImageView excluirMarcacaoImageView = (ImageView) view.findViewById(R.id.excluirMarcacaoImageView);
 
         if (position % 2 == 0){
-            sentidoTextView.setText("E");
+            sentidoImageView.setImageResource(R.mipmap.entrada2);
         } else {
-            sentidoTextView.setText("S");
+            sentidoImageView.setImageResource(R.mipmap.saida2);
         }
         TextView marcacaoTextView = (TextView) view.findViewById(R.id.marcacaoTextView);
 

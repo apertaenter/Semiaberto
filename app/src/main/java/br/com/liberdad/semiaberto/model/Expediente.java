@@ -19,9 +19,9 @@ public class Expediente {
 
     private List<Date> marcacoes = new ArrayList<Date>();
 
-    private Jornada jornada = new Jornada(OITO_HORAS_LONG);
+    private Jornada jornada;
 
-    private Contrato contrato = Contrato.OITO;
+    private Contrato contrato;
 
     private final Date INICIO_EXPEDIENTE;
 
@@ -84,23 +84,14 @@ public class Expediente {
 
     public void setJornada(long jornada) {
 
-        /*if (contrato == Contrato.OITO && jornada < CINCO_HORAS_LONG)
-            throw new IllegalArgumentException();
-
-        if (contrato == Contrato.SEIS && jornada > OITO_HORAS_LONG)
-            throw new UnsupportedOperationException();*/
-
-        this.jornada.setJornada(jornada);
+        if (null == this.jornada)
+            this.jornada = new Jornada(jornada);
+        else
+            this.jornada.setJornada(jornada);
 
     }
 
     public void setContrato(int contrato){
-
-        /*if (jornada.getJornada() < CINCO_HORAS_LONG && contrato == 8)
-            throw new IllegalArgumentException();
-
-        if (jornada.getJornada() > OITO_HORAS_LONG && contrato == 6)
-            throw new UnsupportedOperationException();*/
 
         if (contrato == 6)
             this.contrato = Contrato.SEIS;

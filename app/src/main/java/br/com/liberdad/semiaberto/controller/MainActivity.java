@@ -1,22 +1,20 @@
 package br.com.liberdad.semiaberto.controller;
 
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,17 +28,14 @@ import br.com.liberdad.semiaberto.model.Expediente;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Menu menu;
     private ListView marcacoesListView;
     private ListViewAdapter listViewAdapter;
-
     private TextView saioAsTextView;
     private TextView atrasoTextView;
     private TextView debitoTextView;
     private TextView tempoTextView;
     private SeekBar bancoHorasSeekBar;
-    //private RadioGroup.OnCheckedChangeListener jornadaOnCheckedChangeListener;
-    private CompoundButton.OnCheckedChangeListener contratoOnCheckedChangeListener;
-    private AdView mAdView;
 
     private Expediente expediente;
 
@@ -52,70 +47,88 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         toolBar.setTitle(R.string.app_name);
         toolBar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolBar);
 
         marcacoesListView = (ListView) findViewById(R.id.marcacoesListView);
         saioAsTextView = (TextView) findViewById(R.id.saioAsTextView);
         atrasoTextView = (TextView) findViewById(R.id.atrasoTextView);
         debitoTextView = (TextView) findViewById(R.id.debitoTextView);
         tempoTextView = (TextView) findViewById(R.id.tempoTextView);
-
         bancoHorasSeekBar = (SeekBar) findViewById(R.id.bancoHorasSeekBar);
-        bancoHorasSeekBar.setMax(300);
-        bancoHorasSeekBar.setProgress(180);
-        bancoHorasSeekBar.setOnSeekBarChangeListener(new JornadaOnSeekBarChangeListener(this));
-
-        contratoOnCheckedChangeListener = new ContratoOnCheckedChangeListener(this);
-        Switch contratoSwitch = (Switch) findViewById(R.id.contratoSwitch);
-        contratoSwitch.setOnCheckedChangeListener(contratoOnCheckedChangeListener);
-
         listViewAdapter = new ListViewAdapter(this);
         marcacoesListView.setAdapter(listViewAdapter);
         marcacoesListView.setDivider(null);
         marcacoesListView.setDividerHeight(0);
+        View footerView =  ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_view, null, false);
+        marcacoesListView.addFooterView(footerView);
+        bancoHorasSeekBar.setOnSeekBarChangeListener(new JornadaOnSeekBarChangeListener(this));
 
+        SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
+        int contrato = configuracoes.getInt("contrato",8);
         expediente = new Expediente();
-        //expediente.setJornada(8);
-        //expediente.setContrato(8);
 
-        mAdView = (AdView) findViewById(R.id.adView);
-
-        //AdRequest adRequest = new AdRequest.Builder().build(); // PROD
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build(); // DEV
-
-        mAdView.loadAd(adRequest);
-
+        setContrato(contrato);
     }
 
     @Override
-    protected void onPause() {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
 
-        if (mAdView != null) {
-            mAdView.pause();
+        MenuItem contrato6Item = (MenuItem) menu.getItem(0);
+        MenuItem contrato8Item = (MenuItem) menu.getItem(1);
+
+        if ( expediente.getContrato() == Contrato.SEIS ){
+            contrato6Item.setChecked(true);
+            contrato6Item.setEnabled(false);
+            contrato8Item.setChecked(false);
+            contrato8Item.setEnabled(true);
+        }else{
+            contrato6Item.setChecked(false);
+            contrato6Item.setEnabled(true);
+            contrato8Item.setChecked(true);
+            contrato8Item.setEnabled(false);
         }
-
-        super.onPause();
+        return true;
     }
 
     @Override
-    protected void onResume() {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (mAdView != null) {
-            mAdView.resume();
+        MenuItem contrato6Item = (MenuItem) menu.getItem(0);
+        MenuItem contrato8Item = (MenuItem) menu.getItem(1);
+
+        if (item.getItemId() == contrato6Item.getItemId()){
+            setContrato(6);
+            contrato6Item.setChecked(true);
+            contrato6Item.setEnabled(false);
+            contrato8Item.setChecked(false);
+            contrato8Item.setEnabled(true);
+        }else{
+            setContrato(8);
+            contrato6Item.setChecked(false);
+            contrato6Item.setEnabled(true);
+            contrato8Item.setChecked(true);
+            contrato8Item.setEnabled(false);
         }
 
-        super.onResume();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onStop() {
+        super.onStop();
 
-        if (mAdView != null) {
-            mAdView.destroy();
+        SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = configuracoes.edit();
+        if (expediente.getContrato() == Contrato.OITO) {
+            editor.putInt("contrato", 8);
+        }else {
+            editor.putInt("contrato", 6);
         }
-
-        super.onDestroy();
+        editor.commit();
     }
-
 
     public void adicionarMarcacao(View view) {
         DialogFragment dialogFragment = new TimePickerFragment();
@@ -169,34 +182,42 @@ public class MainActivity extends AppCompatActivity {
 
     public void setContrato(int contrato) {
 
-        expediente.setContrato(contrato);
-
         LinearLayout label6LinearLayout = (LinearLayout) findViewById(R.id.seisLinearLayout);
         LinearLayout label8LinearLayout = (LinearLayout) findViewById(R.id.oitoLinearLayout);
 
-        if (contrato == 8) { // indo do contrato de 6 para 8
+        if (contrato == 8) {
             label6LinearLayout.setVisibility(View.GONE);
             label8LinearLayout.setVisibility(View.VISIBLE);
-
             bancoHorasSeekBar.setMax(300);
-            bancoHorasSeekBar.setProgress(bancoHorasSeekBar.getProgress() + 60);
 
-            expediente.setJornada( ( bancoHorasSeekBar.getProgress() + 5 * 60 ) * 60 * 1000 );
+            if (null == expediente.getContrato()) {
+                bancoHorasSeekBar.setProgress(180);
+                expediente.setJornada(8 * 60 * 60 * 1000); // Oito horas long
+            }else {
+                bancoHorasSeekBar.setProgress(bancoHorasSeekBar.getProgress() + 60);
+                expediente.setJornada( ( bancoHorasSeekBar.getProgress() + 5 * 60 ) * 60 * 1000 );
+            }
+
         } else {
             label8LinearLayout.setVisibility(View.GONE);
             label6LinearLayout.setVisibility(View.VISIBLE);
-            int posicaoAnterior = bancoHorasSeekBar.getProgress();
             bancoHorasSeekBar.setMax(240);
 
-            if (posicaoAnterior < 60) {
-                bancoHorasSeekBar.setProgress(0);
-            } else {
-                bancoHorasSeekBar.setProgress(posicaoAnterior - 60);
+            if (null == expediente.getContrato()) {
+                bancoHorasSeekBar.setProgress(120);
+                expediente.setJornada(6 * 60 * 60 * 1000); // Seis horas long
+            }else{
+                int posicaoAnterior = bancoHorasSeekBar.getProgress();
+                if (posicaoAnterior < 60) {
+                    bancoHorasSeekBar.setProgress(0);
+                } else {
+                    bancoHorasSeekBar.setProgress(posicaoAnterior - 60);
+                }
+                expediente.setJornada( ( bancoHorasSeekBar.getProgress() + 4 * 60 ) * 60 * 1000 );
             }
-
-            expediente.setJornada( ( bancoHorasSeekBar.getProgress() + 4 * 60 ) * 60 * 1000 );
-
         }
+
+        expediente.setContrato(contrato);
 
         setTempoTextView(bancoHorasSeekBar.getProgress());
 
@@ -205,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setTempoTextView(int minutos) {
+    public void setTempoTextView(int minutos) {
 
         int posicaoRelativa = 0;
         String saida = "";
@@ -221,7 +242,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (posicaoRelativa < 0) {
-            saida = "-";
+            saida = "- ";
+        }else{
+            saida = "+ ";
         }
 
         saida = saida + "0" + Math.abs(posicaoRelativa / 60) + ":";
@@ -276,6 +299,47 @@ public class MainActivity extends AppCompatActivity {
             bancoHorasSeekBar.setProgress(bancoHorasSeekBar.getProgress() + 1);
             setJornada(bancoHorasSeekBar.getProgress());
         }
+    }
+
+    public void posicionarSeekBar(View view){
+
+        switch(view.getId()){
+            case  R.id.cincoOitoTextView:
+                bancoHorasSeekBar.setProgress(0);
+                break;
+            case  R.id.seisOitoTextView:
+                bancoHorasSeekBar.setProgress(60);
+                break;
+            case  R.id.seteOitoTextView:
+                bancoHorasSeekBar.setProgress(120);
+                break;
+            case  R.id.oitoOitoTextView:
+                bancoHorasSeekBar.setProgress(180);
+                break;
+            case  R.id.noveOitoTextView:
+                bancoHorasSeekBar.setProgress(240);
+                break;
+            case  R.id.dezOitoTextView:
+                bancoHorasSeekBar.setProgress(300);
+                break;
+            case  R.id.quatroSeisTextView:
+                bancoHorasSeekBar.setProgress(0);
+                break;
+            case  R.id.cincoSeisTextView:
+                bancoHorasSeekBar.setProgress(60);
+                break;
+            case  R.id.seisSeisTextView:
+                bancoHorasSeekBar.setProgress(120);
+                break;
+            case  R.id.seteSeisTextView:
+                bancoHorasSeekBar.setProgress(180);
+                break;
+            case  R.id.oitoSeisTextView:
+                bancoHorasSeekBar.setProgress(240);
+                break;
+        }
+        setJornada(bancoHorasSeekBar.getProgress());
+
     }
 
 }
