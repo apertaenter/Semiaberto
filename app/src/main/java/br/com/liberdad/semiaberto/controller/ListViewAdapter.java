@@ -41,9 +41,9 @@ public class ListViewAdapter extends ArrayAdapter<Date> {
         ImageView excluirMarcacaoImageView = (ImageView) view.findViewById(R.id.excluirMarcacaoImageView);
 
         if (position % 2 == 0){
-            sentidoImageView.setImageResource(R.mipmap.entrada2);
+            sentidoImageView.setImageResource(R.mipmap.entrada);
         } else {
-            sentidoImageView.setImageResource(R.mipmap.saida2);
+            sentidoImageView.setImageResource(R.mipmap.saida);
         }
         TextView marcacaoTextView = (TextView) view.findViewById(R.id.marcacaoTextView);
 

@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/sentidoImageView"
-            android:src="@mipmap/entrada2"
+            android:src="@mipmap/entrada"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_width="20dp"
@@ -32,7 +32,7 @@
 
         <ImageView
             android:id="@+id/excluirMarcacaoImageView"
-            android:src="@mipmap/excluir2"
+            android:src="@mipmap/excluir"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_width="20dp"

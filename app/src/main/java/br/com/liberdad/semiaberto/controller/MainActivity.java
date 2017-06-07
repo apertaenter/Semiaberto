@@ -2,7 +2,9 @@ package br.com.liberdad.semiaberto.controller;
 
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -339,6 +341,17 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         setJornada(bancoHorasSeekBar.getProgress());
+
+    }
+
+    public void abrirPlay(View view){
+
+        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
 
     }
 

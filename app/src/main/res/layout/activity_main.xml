@@ -5,9 +5,17 @@
     android:layout_height="match_parent"
     tools:context="br.com.liberdad.semiaberto.controller.MainActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:backgroundTint="@color/orange_finep"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:onClick="adicionarMarcacao"
+        android:src="@mipmap/entrada_saida" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -74,26 +82,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/green_finep">
+            android:background="@color/green_finep"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:text="Banco de horas: "
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_margin="5dp" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tempoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:text="+ 00:00"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_margin="5dp" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -101,17 +110,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:src="@mipmap/menos"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:onClick="decrementarSeekBar" />
+                android:onClick="decrementarSeekBar"
+                android:src="@mipmap/menos" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -133,10 +142,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="5"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/seisOitoTextView"
@@ -144,9 +153,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="6"
-                        android:textSize="18sp"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/seteOitoTextView"
@@ -154,9 +163,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="7"
-                        android:textSize="18sp"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/oitoOitoTextView"
@@ -164,10 +173,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="8"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/noveOitoTextView"
@@ -175,9 +184,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="9"
-                        android:textSize="18sp"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/dezOitoTextView"
@@ -185,10 +194,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="10"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
                 <!-- fechando o label das 8 -->
 
@@ -206,10 +215,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="4"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/cincoSeisTextView"
@@ -217,9 +226,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="5"
-                        android:textSize="18sp"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/seisSeisTextView"
@@ -227,10 +236,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="6"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/seteSeisTextView"
@@ -238,9 +247,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="7"
-                        android:textSize="18sp"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/oitoSeisTextView"
@@ -248,10 +257,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
+                        android:onClick="posicionarSeekBar"
                         android:text="8"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:onClick="posicionarSeekBar"/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
                 <!-- fechando o label das 6 -->
@@ -260,17 +269,17 @@
                     android:id="@+id/bancoHorasSeekBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"/>
+                    android:layout_marginTop="15dp" />
 
             </LinearLayout>
 
             <ImageView
-                android:src="@mipmap/mais"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:onClick="incrementarSeekBar" />
+                android:onClick="incrementarSeekBar"
+                android:src="@mipmap/mais" />
 
         </LinearLayout>
         <!-- fechando seekbar -->
@@ -297,7 +306,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/green_finep"
                     android:gravity="center_horizontal"
-                    android:text="@string/opcoes_text_view"
+                    android:text="Doações"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -305,7 +314,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="..."/>
+                    android:layout_margin="30dp"
+                    android:text="Clique abaixo para mais informações"
+                    android:gravity="center_horizontal"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:onClick="abrirPlay"
+                    android:src="@mipmap/sacodedinheiro" />
 
             </LinearLayout>
             <!-- fechando o painel esquerdo -->
@@ -348,15 +368,5 @@
 
 
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:backgroundTint="@color/orange_finep"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:onClick="adicionarMarcacao"
-        android:src="@mipmap/entrada_saida" />
 
 </android.support.design.widget.CoordinatorLayout>
