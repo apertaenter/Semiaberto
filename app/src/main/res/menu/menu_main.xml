@@ -9,9 +9,9 @@
         android:checked="false"
         android:title="Contrato de 6 horas" />
     <item
-        android:id="@+id/contrato8Item"
+        android:id="@+id/nucleoFlexItem"
         android:checkable="true"
         android:checked="false"
-        android:title="Contrato de 8 horas" />
+        android:title="Horário núcleo flexível" />
 
 </menu>

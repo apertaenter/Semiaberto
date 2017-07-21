@@ -11,6 +11,8 @@ public class Expediente {
 
     private boolean atraso;
 
+    private boolean nucleoFlex;
+
     private final long CINCO_HORAS_LONG = 5 * 60 * 60 * 1000;
 
     private final long OITO_HORAS_LONG = 8 * 60 * 60 * 1000;
@@ -31,11 +33,11 @@ public class Expediente {
 
     private final Date FIM_ALMOCO;
 
-    private final Date INICIO_NUCLEO;
+    private Date inicioNucleo;
 
-    private final Date FIM_NUCLEO;
+    private Date fimNucleo;
 
-    public Expediente() {
+    public Expediente(boolean nucleoFlex) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 7);
@@ -66,14 +68,42 @@ public class Expediente {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        INICIO_NUCLEO = calendar.getTime();
+        inicioNucleo = calendar.getTime();
 
         calendar.set(Calendar.HOUR_OF_DAY, 18);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        FIM_NUCLEO = calendar.getTime();
+        fimNucleo = calendar.getTime();
 
+        setNucleoFlex(nucleoFlex);
+
+    }
+
+    public boolean isNucleoFlex() {
+        return nucleoFlex;
+    }
+
+    public void setNucleoFlex(boolean nucleoFlex) {
+        Calendar calendar = Calendar.getInstance();
+        if (nucleoFlex){
+            inicioNucleo = INICIO_EXPEDIENTE;
+
+            fimNucleo = FIM_EXPEDIENTE;
+        }else{
+            calendar.set(Calendar.HOUR_OF_DAY, 9);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            inicioNucleo = calendar.getTime();
+
+            calendar.set(Calendar.HOUR_OF_DAY, 18);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            fimNucleo = calendar.getTime();
+        }
+        this.nucleoFlex = nucleoFlex;
     }
 
     public void setMarcacoes(List<Date> marcacoes) {
@@ -144,28 +174,30 @@ public class Expediente {
         }
 
         // Obter complemento de nucleo
-        if ((calcularPresencasNucleo() - pnaAlmoco) < contrato.getNucleo()) {
 
-            complementoNucleo = (contrato.getNucleo()) - (calcularPresencasNucleo() - pnaAlmoco); // Total menos o que já cumpriu
+            if ((calcularPresencasNucleo() - pnaAlmoco) < contrato.getNucleo()) {
 
-            // Verificar se existe horas disponíveis para cumprir o horário núcleo
-            if (FIM_NUCLEO.before(ultimaMarcacao)) { // Não existe mais núcleo a ser cumprido
+                complementoNucleo = (contrato.getNucleo()) - (calcularPresencasNucleo() - pnaAlmoco); // Total menos o que já cumpriu
 
-                complementoNucleo = 0;
-                atraso = true;
+                // Verificar se existe horas disponíveis para cumprir o horário núcleo
+                if (fimNucleo.before(ultimaMarcacao)) { // Não existe mais núcleo a ser cumprido
 
-            } else {
-
-                if ((FIM_NUCLEO.getTime() - ultimaMarcacao.getTime()) < complementoNucleo) { // Verificar disponibilidade de horário núcleo a ser cumprido
-
-                    complementoNucleo = FIM_NUCLEO.getTime() - ultimaMarcacao.getTime();
+                    complementoNucleo = 0;
                     atraso = true;
+
+                } else {
+
+                    if ((fimNucleo.getTime() - ultimaMarcacao.getTime()) < complementoNucleo) { // Verificar disponibilidade de horário núcleo a ser cumprido
+
+                        complementoNucleo = fimNucleo.getTime() - ultimaMarcacao.getTime();
+                        atraso = true;
+
+                    }
 
                 }
 
             }
 
-        }
 
         // Obter complemento de jornada
         if (calcularPresencasNucleo() - pnaAlmoco + calcularPresencasNaoNucleo() < jornada.getJornada()) {
@@ -192,15 +224,15 @@ public class Expediente {
         }
 
         // Cálculo final - ALELUIA !!!
-        if ( INICIO_NUCLEO.after(ultimaMarcacao) ) {
+        if ( inicioNucleo.after(ultimaMarcacao) ) {
 
-            if ( complementoJornada > (complementoNucleo + (INICIO_NUCLEO.getTime() - ultimaMarcacao.getTime())) ) {
+            if ( complementoJornada > (complementoNucleo + (inicioNucleo.getTime() - ultimaMarcacao.getTime())) ) {
 
                 result.setTime(ultimaMarcacao.getTime() + complementoJornada);
 
             }else{
 
-                result.setTime(INICIO_NUCLEO.getTime() + complementoNucleo);
+                result.setTime(inicioNucleo.getTime() + complementoNucleo);
 
             }
 
@@ -274,11 +306,11 @@ public class Expediente {
 
             } else if (estaDentroHorarioNucleo(entrada)) { // E
 
-                result = result + FIM_NUCLEO.getTime() - entrada.getTime();
+                result = result + fimNucleo.getTime() - entrada.getTime();
 
             } else if (estaDentroHorarioNucleo(saida)) { // D
 
-                result = result + saida.getTime() - INICIO_NUCLEO.getTime();
+                result = result + saida.getTime() - inicioNucleo.getTime();
 
             }
 
@@ -299,7 +331,7 @@ public class Expediente {
 
             if (excedeTodoHorarioNucleo(entrada, saida)) { // F
 
-                result = result + INICIO_NUCLEO.getTime() - entrada.getTime() + saida.getTime() - FIM_NUCLEO.getTime();
+                result = result + inicioNucleo.getTime() - entrada.getTime() + saida.getTime() - fimNucleo.getTime();
 
             } else if (estaDentroHorarioNucleo(entrada) && estaDentroHorarioNucleo(saida)) { // B
 
@@ -311,11 +343,11 @@ public class Expediente {
 
             } else if (estaDentroHorarioNucleo(entrada)) { // E
 
-                result = result + saida.getTime() - FIM_NUCLEO.getTime();
+                result = result + saida.getTime() - fimNucleo.getTime();
 
             } else if (estaDentroHorarioNucleo(saida)) { // D
 
-                result = result + INICIO_NUCLEO.getTime() - entrada.getTime();
+                result = result + inicioNucleo.getTime() - entrada.getTime();
 
             }
 
@@ -332,7 +364,7 @@ public class Expediente {
 
     private boolean estaDentroHorarioNucleo(Date marcacao) {
 
-        return marcacao.after(INICIO_NUCLEO) && marcacao.before(FIM_NUCLEO);
+        return marcacao.after(inicioNucleo) && marcacao.before(fimNucleo);
     }
 
     private boolean excedeTodoIntervaloAlmoco(Date saida, Date entrada) {
@@ -342,7 +374,7 @@ public class Expediente {
 
     private boolean excedeTodoHorarioNucleo(Date entrada, Date saida) {
 
-        return entrada.before(INICIO_NUCLEO) && saida.after(FIM_NUCLEO);
+        return entrada.before(inicioNucleo) && saida.after(fimNucleo);
     }
 
     private Date ajustaHorario (Date horario){

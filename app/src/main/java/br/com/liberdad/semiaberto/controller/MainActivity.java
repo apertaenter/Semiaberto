@@ -61,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
         marcacoesListView.setAdapter(listViewAdapter);
         marcacoesListView.setDivider(null);
         marcacoesListView.setDividerHeight(0);
-        View footerView =  ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_view, null, false);
+        View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_view, null, false);
         marcacoesListView.addFooterView(footerView);
         bancoHorasSeekBar.setOnSeekBarChangeListener(new JornadaOnSeekBarChangeListener(this));
 
         SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
-        int contrato = configuracoes.getInt("contrato",8);
-        expediente = new Expediente();
+        int contrato = configuracoes.getInt("contrato", 8);
+        boolean nucleoFlex = configuracoes.getBoolean("nucleoFlex", false);
+
+        expediente = new Expediente(nucleoFlex);
 
         setContrato(contrato);
     }
@@ -79,19 +81,20 @@ public class MainActivity extends AppCompatActivity {
         this.menu = menu;
 
         MenuItem contrato6Item = (MenuItem) menu.getItem(0);
-        MenuItem contrato8Item = (MenuItem) menu.getItem(1);
+        MenuItem nucleoFlexItem = (MenuItem) menu.getItem(1);
 
-        if ( expediente.getContrato() == Contrato.SEIS ){
+        if (expediente.getContrato() == Contrato.SEIS) {
             contrato6Item.setChecked(true);
-            contrato6Item.setEnabled(false);
-            contrato8Item.setChecked(false);
-            contrato8Item.setEnabled(true);
-        }else{
+        } else {
             contrato6Item.setChecked(false);
-            contrato6Item.setEnabled(true);
-            contrato8Item.setChecked(true);
-            contrato8Item.setEnabled(false);
         }
+
+        if (expediente.isNucleoFlex()) {
+            nucleoFlexItem.setChecked(true);
+        } else {
+            nucleoFlexItem.setChecked(false);
+        }
+
         return true;
     }
 
@@ -99,20 +102,26 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         MenuItem contrato6Item = (MenuItem) menu.getItem(0);
-        MenuItem contrato8Item = (MenuItem) menu.getItem(1);
+        MenuItem nucleoFlexItem = (MenuItem) menu.getItem(1);
 
-        if (item.getItemId() == contrato6Item.getItemId()){
-            setContrato(6);
-            contrato6Item.setChecked(true);
-            contrato6Item.setEnabled(false);
-            contrato8Item.setChecked(false);
-            contrato8Item.setEnabled(true);
-        }else{
-            setContrato(8);
-            contrato6Item.setChecked(false);
-            contrato6Item.setEnabled(true);
-            contrato8Item.setChecked(true);
-            contrato8Item.setEnabled(false);
+        if (item.getItemId() == contrato6Item.getItemId()) {
+            if (expediente.getContrato() == Contrato.SEIS) {
+                setContrato(8);
+                contrato6Item.setChecked(false);
+            } else {
+                setContrato(6);
+                contrato6Item.setChecked(true);
+
+            }
+        } else {
+            if (expediente.isNucleoFlex()){
+                setNucleoFlex(false);
+                nucleoFlexItem.setChecked(false);
+            }else{
+
+                setNucleoFlex(true);
+                nucleoFlexItem.setChecked(true);
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -126,9 +135,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = configuracoes.edit();
         if (expediente.getContrato() == Contrato.OITO) {
             editor.putInt("contrato", 8);
-        }else {
+        } else {
             editor.putInt("contrato", 6);
         }
+
+        editor.putBoolean("nucleoFlex", expediente.isNucleoFlex());
+
         editor.commit();
     }
 
@@ -195,9 +207,9 @@ public class MainActivity extends AppCompatActivity {
             if (null == expediente.getContrato()) {
                 bancoHorasSeekBar.setProgress(180);
                 expediente.setJornada(8 * 60 * 60 * 1000); // Oito horas long
-            }else {
+            } else {
                 bancoHorasSeekBar.setProgress(bancoHorasSeekBar.getProgress() + 60);
-                expediente.setJornada( ( bancoHorasSeekBar.getProgress() + 5 * 60 ) * 60 * 1000 );
+                expediente.setJornada((bancoHorasSeekBar.getProgress() + 5 * 60) * 60 * 1000);
             }
 
         } else {
@@ -208,14 +220,14 @@ public class MainActivity extends AppCompatActivity {
             if (null == expediente.getContrato()) {
                 bancoHorasSeekBar.setProgress(120);
                 expediente.setJornada(6 * 60 * 60 * 1000); // Seis horas long
-            }else{
+            } else {
                 int posicaoAnterior = bancoHorasSeekBar.getProgress();
                 if (posicaoAnterior < 60) {
                     bancoHorasSeekBar.setProgress(0);
                 } else {
                     bancoHorasSeekBar.setProgress(posicaoAnterior - 60);
                 }
-                expediente.setJornada( ( bancoHorasSeekBar.getProgress() + 4 * 60 ) * 60 * 1000 );
+                expediente.setJornada((bancoHorasSeekBar.getProgress() + 4 * 60) * 60 * 1000);
             }
         }
 
@@ -223,6 +235,14 @@ public class MainActivity extends AppCompatActivity {
 
         setTempoTextView(bancoHorasSeekBar.getProgress());
 
+        atualizarSaioAs(expediente.getUltimaSaidaProposta());
+        verificarAtrasosEDebitos();
+
+    }
+
+    public void setNucleoFlex(boolean nucleoFlex){
+
+        expediente.setNucleoFlex(nucleoFlex);
         atualizarSaioAs(expediente.getUltimaSaidaProposta());
         verificarAtrasosEDebitos();
 
@@ -245,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (posicaoRelativa < 0) {
             saida = "- ";
-        }else{
+        } else {
             saida = "+ ";
         }
 
@@ -303,40 +323,40 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void posicionarSeekBar(View view){
+    public void posicionarSeekBar(View view) {
 
-        switch(view.getId()){
-            case  R.id.cincoOitoTextView:
+        switch (view.getId()) {
+            case R.id.cincoOitoTextView:
                 bancoHorasSeekBar.setProgress(0);
                 break;
-            case  R.id.seisOitoTextView:
+            case R.id.seisOitoTextView:
                 bancoHorasSeekBar.setProgress(60);
                 break;
-            case  R.id.seteOitoTextView:
+            case R.id.seteOitoTextView:
                 bancoHorasSeekBar.setProgress(120);
                 break;
-            case  R.id.oitoOitoTextView:
+            case R.id.oitoOitoTextView:
                 bancoHorasSeekBar.setProgress(180);
                 break;
-            case  R.id.noveOitoTextView:
+            case R.id.noveOitoTextView:
                 bancoHorasSeekBar.setProgress(240);
                 break;
-            case  R.id.dezOitoTextView:
+            case R.id.dezOitoTextView:
                 bancoHorasSeekBar.setProgress(300);
                 break;
-            case  R.id.quatroSeisTextView:
+            case R.id.quatroSeisTextView:
                 bancoHorasSeekBar.setProgress(0);
                 break;
-            case  R.id.cincoSeisTextView:
+            case R.id.cincoSeisTextView:
                 bancoHorasSeekBar.setProgress(60);
                 break;
-            case  R.id.seisSeisTextView:
+            case R.id.seisSeisTextView:
                 bancoHorasSeekBar.setProgress(120);
                 break;
-            case  R.id.seteSeisTextView:
+            case R.id.seteSeisTextView:
                 bancoHorasSeekBar.setProgress(180);
                 break;
-            case  R.id.oitoSeisTextView:
+            case R.id.oitoSeisTextView:
                 bancoHorasSeekBar.setProgress(240);
                 break;
         }
@@ -344,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void abrirPlay(View view){
+    public void abrirPlay(View view) {
 
         final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
         try {
