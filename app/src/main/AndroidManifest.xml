@@ -20,7 +20,7 @@
 
         <receiver android:name=".controller.AlarmReceiver" />
 
-        <activity android:name=".AlarmeActivity"></activity>
+        <activity android:name=".controller.AlarmeActivity"></activity>
     </application>
 
 </manifest>

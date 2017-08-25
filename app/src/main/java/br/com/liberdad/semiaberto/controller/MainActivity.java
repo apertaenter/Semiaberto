@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
     private PendingIntent pendingIntent;
 
+    private boolean alarme = false;
+    private boolean sonoro;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,31 +77,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
         int contrato = configuracoes.getInt("contrato", 8);
         boolean nucleoFlex = configuracoes.getBoolean("nucleoFlex", false);
+        sonoro = configuracoes.getBoolean("sonoro", false);
 
         expediente = new Expediente(nucleoFlex);
 
         setContrato(contrato);
 
-        // TESTE DO ALARME
-
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-        start();
-
-    }
-
-    public void start() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 0;
-
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 40000, interval, pendingIntent);
-        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
-    }
-
-    public void cancel() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(pendingIntent);
-        Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -108,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem contrato6Item = (MenuItem) menu.getItem(0);
         MenuItem nucleoFlexItem = (MenuItem) menu.getItem(1);
+        MenuItem sonoroItem = (MenuItem) menu.getItem(2);
 
         if (expediente.getContrato() == Contrato.SEIS) {
             contrato6Item.setChecked(true);
@@ -121,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
             nucleoFlexItem.setChecked(false);
         }
 
+        if (sonoro) {
+            sonoroItem.setChecked(true);
+        }else{
+            sonoroItem.setChecked(false);
+        }
+
         return true;
     }
 
@@ -129,25 +121,37 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem contrato6Item = (MenuItem) menu.getItem(0);
         MenuItem nucleoFlexItem = (MenuItem) menu.getItem(1);
+        MenuItem alarmeSonoroItem = (MenuItem) menu.getItem(2);
 
-        if (item.getItemId() == contrato6Item.getItemId()) {
-            if (expediente.getContrato() == Contrato.SEIS) {
-                setContrato(8);
-                contrato6Item.setChecked(false);
-            } else {
-                setContrato(6);
-                contrato6Item.setChecked(true);
+        switch(item.getItemId()){
+            case R.id.contrato6Item: // contrato6Item
+                if (expediente.getContrato() == Contrato.SEIS) {
+                    setContrato(8);
+                    contrato6Item.setChecked(false);
+                } else {
+                    setContrato(6);
+                    contrato6Item.setChecked(true);
+                }
+                break;
+            case R.id.nucleoFlexItem: //nucleoFlexItem
+                if (expediente.isNucleoFlex()){
+                    setNucleoFlex(false);
+                    nucleoFlexItem.setChecked(false);
+                }else{
 
-            }
-        } else {
-            if (expediente.isNucleoFlex()){
-                setNucleoFlex(false);
-                nucleoFlexItem.setChecked(false);
-            }else{
-
-                setNucleoFlex(true);
-                nucleoFlexItem.setChecked(true);
-            }
+                    setNucleoFlex(true);
+                    nucleoFlexItem.setChecked(true);
+                }
+                break;
+            case R.id.alarmeSonoroItem: //alarmeSonoroItem
+                if (sonoro) {
+                    sonoro = false;
+                    alarmeSonoroItem.setChecked(false);
+                }else {
+                    sonoro = true;
+                    alarmeSonoroItem.setChecked(true);
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -166,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         editor.putBoolean("nucleoFlex", expediente.isNucleoFlex());
+
+        editor.putBoolean("sonoro", sonoro);
 
         editor.commit();
     }
@@ -315,6 +321,11 @@ public class MainActivity extends AppCompatActivity {
             SimpleDateFormat formata = new SimpleDateFormat("HH:mm");
             saioAsTextView.setText(formata.format(horario));
         }
+
+        if (alarme){
+            desativarAlarme();
+            ativarAlarme(horario);
+        }
     }
 
     private void verificarAtrasosEDebitos() {
@@ -388,6 +399,40 @@ public class MainActivity extends AppCompatActivity {
         }
         setJornada(bancoHorasSeekBar.getProgress());
 
+    }
+
+    public void ativarDesativarAlarme(View view){
+
+        ImageView imageView = (ImageView)findViewById(R.id.alarmeImageView);
+
+        if (alarme){
+            imageView.setImageResource(R.mipmap.alarm_off);
+            desativarAlarme();
+            alarme = false;
+        }else{
+            imageView.setImageResource(R.mipmap.alarm_on);
+            ativarAlarme(expediente.getUltimaSaidaProposta());
+            alarme = true;
+        }
+
+    }
+
+    public void ativarAlarme(Date horario) {
+        if(!listViewAdapter.isEmpty()) {
+
+            Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+            alarmIntent.putExtra("sonoro",sonoro);
+            pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            int interval = 0;
+            manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, horario.getTime(), interval, pendingIntent);
+        }
+    }
+
+    public void desativarAlarme() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
     }
 
     public void abrirPlay(View view) {
