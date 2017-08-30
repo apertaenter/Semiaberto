@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         bancoHorasSeekBar.setOnSeekBarChangeListener(new JornadaOnSeekBarChangeListener(this));
 
         SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
+        //SharedPreferences configuracoes = getSharedPreferences("arquivo",MODE_PRIVATE);
         int contrato = configuracoes.getInt("contrato", 8);
         boolean nucleoFlex = configuracoes.getBoolean("nucleoFlex", false);
         sonoro = configuracoes.getBoolean("sonoro", false);
@@ -162,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
 
         SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
+        //SharedPreferences configuracoes = getSharedPreferences("arquivo",MODE_PRIVATE);
         SharedPreferences.Editor editor = configuracoes.edit();
         if (expediente.getContrato() == Contrato.OITO) {
             editor.putInt("contrato", 8);
@@ -418,11 +420,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ativarAlarme(Date horario) {
-        if(!listViewAdapter.isEmpty()) {
+        if(listViewAdapter.isEmpty() || horario.before(Calendar.getInstance().getTime())) {
+            desativarAlarme();
+        }else{
 
             Intent alarmIntent = new Intent(this, AlarmReceiver.class);
             alarmIntent.putExtra("sonoro",sonoro);
-            pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+            pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             int interval = 0;
