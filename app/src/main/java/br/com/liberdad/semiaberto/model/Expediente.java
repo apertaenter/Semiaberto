@@ -112,6 +112,10 @@ public class Expediente {
 
     }
 
+    public List<Date> getMarcacoes(){
+        return marcacoes;
+    }
+
     public void setJornada(long jornada) {
 
         if (null == this.jornada)

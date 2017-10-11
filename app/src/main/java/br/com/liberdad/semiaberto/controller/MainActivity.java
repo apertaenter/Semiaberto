@@ -23,9 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import br.com.liberdad.semiaberto.R;
 import br.com.liberdad.semiaberto.model.Comparador;
@@ -75,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         bancoHorasSeekBar.setOnSeekBarChangeListener(new JornadaOnSeekBarChangeListener(this));
 
         SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
-        //SharedPreferences configuracoes = getSharedPreferences("arquivo",MODE_PRIVATE);
         int contrato = configuracoes.getInt("contrato", 8);
         boolean nucleoFlex = configuracoes.getBoolean("nucleoFlex", false);
         sonoro = configuracoes.getBoolean("sonoro", false);
@@ -84,6 +86,44 @@ public class MainActivity extends AppCompatActivity {
 
         setContrato(contrato);
 
+        Set<String> marcacoes = configuracoes.getStringSet("marcacoes",null);
+        Calendar calendario = Calendar.getInstance();
+        calendario.set(Calendar.HOUR_OF_DAY,0);
+        calendario.set(Calendar.MINUTE,0);
+        calendario.set(Calendar.SECOND,0);
+        long primeiraHora = calendario.getTimeInMillis();
+        calendario.set(Calendar.HOUR_OF_DAY,23);
+        calendario.set(Calendar.MINUTE,59);
+        calendario.set(Calendar.SECOND,59);
+        long ultimaHora = calendario.getTimeInMillis();
+        if (marcacoes != null && !marcacoes.isEmpty()){
+            for(String marcacao:marcacoes){
+                long marcacaoLong = Long.parseLong(marcacao);
+                if (marcacaoLong >= primeiraHora && marcacaoLong <= ultimaHora){
+                    calendario.setTimeInMillis(marcacaoLong);
+                    setMarcacao(calendario.get(Calendar.HOUR_OF_DAY),calendario.get(Calendar.MINUTE));
+                }
+            }
+            if (!listViewAdapter.isEmpty()) {
+                // Carregar jornada desejada
+                int jornadaDesejada = configuracoes.getInt("jornadaDesejada", 0);
+                setJornada(jornadaDesejada);
+                bancoHorasSeekBar.setProgress(jornadaDesejada);
+                // Carregar alarme
+                alarme = configuracoes.getBoolean("alarme", false);
+                ImageView imageView = (ImageView) findViewById(R.id.alarmeImageView);
+
+                if (!alarme) {
+                    imageView.setImageResource(R.mipmap.alarm_off);
+                    desativarAlarme();
+                    alarme = false;
+                } else {
+                    imageView.setImageResource(R.mipmap.alarm_on);
+                    ativarAlarme(expediente.getUltimaSaidaProposta());
+                    alarme = true;
+                }
+            }
+        }
     }
 
     @Override
@@ -163,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
 
         SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
-        //SharedPreferences configuracoes = getSharedPreferences("arquivo",MODE_PRIVATE);
         SharedPreferences.Editor editor = configuracoes.edit();
         if (expediente.getContrato() == Contrato.OITO) {
             editor.putInt("contrato", 8);
@@ -171,9 +210,20 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("contrato", 6);
         }
 
+        editor.putInt("jornadaDesejada", bancoHorasSeekBar.getProgress());
+
         editor.putBoolean("nucleoFlex", expediente.isNucleoFlex());
 
         editor.putBoolean("sonoro", sonoro);
+
+        editor.putBoolean("alarme", alarme);
+
+        Set<String> marcacoes = new HashSet<String>();
+
+        for (Date marcacao:expediente.getMarcacoes()) {
+            marcacoes.add(marcacao.getTime()+"");
+        }
+        editor.putStringSet("marcacoes",marcacoes);
 
         editor.commit();
     }
@@ -285,30 +335,53 @@ public class MainActivity extends AppCompatActivity {
     public void setTempoTextView(int minutos) {
 
         int posicaoRelativa = 0;
+        int posicaoAbsoluta = 0;
         String saida = "";
 
         if (expediente.getContrato() == Contrato.OITO) {
 
             posicaoRelativa = minutos - 180;
+            posicaoAbsoluta = 300 + minutos;
 
         } else {
 
             posicaoRelativa = minutos - 120;
+            posicaoAbsoluta = 240 + minutos;
 
         }
+
+        // Total da jornada desejada
+
+        if ((posicaoAbsoluta / 60) < 10) {
+            saida = saida + "0";
+        }
+
+        saida += (posicaoAbsoluta/60) + ":";
+
+        if ((posicaoAbsoluta % 60) < 10) {
+            saida = saida + "0";
+        }
+        saida += (posicaoAbsoluta%60);
+
+        // Variação
 
         if (posicaoRelativa < 0) {
-            saida = "- ";
+            saida += " (-";
         } else {
-            saida = "+ ";
+            saida += " (+";
         }
+
 
         saida = saida + "0" + Math.abs(posicaoRelativa / 60) + ":";
         if ((Math.abs(posicaoRelativa) % 60) < 10) {
             saida = saida + "0";
         }
 
+
+
         saida = saida + (Math.abs(posicaoRelativa) % 60);
+
+        saida += ")";
 
         tempoTextView.setText(saida);
 
