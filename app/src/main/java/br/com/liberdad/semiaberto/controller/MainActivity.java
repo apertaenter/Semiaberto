@@ -438,37 +438,37 @@ public class MainActivity extends AppCompatActivity {
     public void posicionarSeekBar(View view) {
 
         switch (view.getId()) {
-            case R.id.cincoOitoTextView:
+            case R.id.cincoOitoImageView:
                 bancoHorasSeekBar.setProgress(0);
                 break;
-            case R.id.seisOitoTextView:
+            case R.id.seisOitoImageView:
                 bancoHorasSeekBar.setProgress(60);
                 break;
-            case R.id.seteOitoTextView:
+            case R.id.seteOitoImageView:
                 bancoHorasSeekBar.setProgress(120);
                 break;
-            case R.id.oitoOitoTextView:
+            case R.id.oitoOitoImageView:
                 bancoHorasSeekBar.setProgress(180);
                 break;
-            case R.id.noveOitoTextView:
+            case R.id.noveOitoImageView:
                 bancoHorasSeekBar.setProgress(240);
                 break;
-            case R.id.dezOitoTextView:
+            case R.id.dezOitoImageView:
                 bancoHorasSeekBar.setProgress(300);
                 break;
-            case R.id.quatroSeisTextView:
+            case R.id.quatroSeisImageView:
                 bancoHorasSeekBar.setProgress(0);
                 break;
-            case R.id.cincoSeisTextView:
+            case R.id.cincoSeisImageView:
                 bancoHorasSeekBar.setProgress(60);
                 break;
-            case R.id.seisSeisTextView:
+            case R.id.seisSeisImageView:
                 bancoHorasSeekBar.setProgress(120);
                 break;
-            case R.id.seteSeisTextView:
+            case R.id.seteSeisImageView:
                 bancoHorasSeekBar.setProgress(180);
                 break;
-            case R.id.oitoSeisTextView:
+            case R.id.oitoSeisImageView:
                 bancoHorasSeekBar.setProgress(240);
                 break;
         }

@@ -147,68 +147,60 @@
                     android:orientation="horizontal"
                     android:visibility="visible">
 
-                    <TextView
-                        android:id="@+id/cincoOitoTextView"
+                    <ImageView
+                        android:id="@+id/cincoOitoImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/cinco"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="5"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/seisOitoTextView"
+                    <ImageView
+                        android:id="@+id/seisOitoImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/seis"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="6"
-                        android:textSize="18sp" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/seteOitoTextView"
+                    <ImageView
+                        android:id="@+id/seteOitoImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/sete"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="7"
-                        android:textSize="18sp" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/oitoOitoTextView"
+                    <ImageView
+                        android:id="@+id/oitoOitoImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/oito"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="8"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/noveOitoTextView"
+                    <ImageView
+                        android:id="@+id/noveOitoImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/nove"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="9"
-                        android:textSize="18sp" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/dezOitoTextView"
+                    <ImageView
+                        android:id="@+id/dezOitoImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/dez"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="10"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:onClick="posicionarSeekBar" />
+
                 </LinearLayout>
                 <!-- fechando o label das 8 -->
 
@@ -220,58 +212,50 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/quatroSeisTextView"
+                    <ImageView
+                        android:id="@+id/quatroSeisImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/quatro"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="4"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/cincoSeisTextView"
+                    <ImageView
+                        android:id="@+id/cincoSeisImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/cinco"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="5"
-                        android:textSize="18sp" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/seisSeisTextView"
+                    <ImageView
+                        android:id="@+id/seisSeisImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/seis"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="6"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/seteSeisTextView"
+                    <ImageView
+                        android:id="@+id/seteSeisImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/sete"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="7"
-                        android:textSize="18sp" />
+                        android:onClick="posicionarSeekBar" />
 
-                    <TextView
-                        android:id="@+id/oitoSeisTextView"
+                    <ImageView
+                        android:id="@+id/oitoSeisImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@mipmap/oito"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:onClick="posicionarSeekBar"
-                        android:text="8"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:onClick="posicionarSeekBar" />
 
                 </LinearLayout>
                 <!-- fechando o label das 6 -->
