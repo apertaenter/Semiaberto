@@ -502,8 +502,7 @@ public class MainActivity extends AppCompatActivity {
             pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            int interval = 0;
-            manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, horario.getTime(), interval, pendingIntent);
+            manager.setExact(AlarmManager.RTC_WAKEUP, horario.getTime(), pendingIntent);
         }
     }
 
