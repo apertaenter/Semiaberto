@@ -260,9 +260,11 @@ public class Expediente {
 
     private long calcularAlmoco() {
 
-        long result = 0;
+        long maior = 0;
 
         for (int i = 1; i < marcacoes.size() - 1; i += 2) { // pares de marcações para avaliar ausências
+
+            long atual = 0;
 
             Date saida = ajustaHorario(marcacoes.get(i));
             Date entrada = ajustaHorario(marcacoes.get(i + 1));
@@ -270,24 +272,28 @@ public class Expediente {
             // Verificar o intervalo válido de almoço acumulando valores válidos
             if (excedeTodoIntervaloAlmoco(saida, entrada)) { // F
 
-                result = result + CINCO_HORAS_LONG; // +5h
+                atual = CINCO_HORAS_LONG; // +5h
 
             } else if (estaDentroHorarioAlmoco(saida) && estaDentroHorarioAlmoco(entrada)) { // B
 
-                result = result + entrada.getTime() - saida.getTime();
+                atual = entrada.getTime() - saida.getTime();
 
             } else if (estaDentroHorarioAlmoco(saida)) { // E
 
-                result = result + FIM_ALMOCO.getTime() - saida.getTime();
+                atual = FIM_ALMOCO.getTime() - saida.getTime();
 
             } else if (estaDentroHorarioAlmoco(entrada)) { // D
 
-                result = result + entrada.getTime() - INICIO_ALMOCO.getTime();
+                atual = entrada.getTime() - INICIO_ALMOCO.getTime();
 
             }
+
+            // comparar o atual com o maior
+            if (atual > maior)
+                maior = atual;
         }
 
-        return result;
+        return maior;
 
     }
 

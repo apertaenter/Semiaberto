@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "br.com.liberdad.semiaberto"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 1710111728 // AAMMDDHHMI
-        versionName "1.6.1" // a.b.c.d - a: grande versao b: release c: bugfix d: build
+        versionCode 1712130848 // AAMMDDHHMI
+        versionName "1.6.2" // a.b.c.d - a: grande versao b: release c: bugfix d: build
     }
     buildTypes {
         release {
