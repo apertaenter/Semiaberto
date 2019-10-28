@@ -76,7 +76,7 @@
                 android:textColor="@color/teal_200"
                 android:textSize="@dimen/saioas_text_view" />
 
-
+<!-- DESATIVAR ALARME
             <ImageView
                 android:id="@+id/alarmeImageView"
                 android:layout_width="50dp"
@@ -86,7 +86,7 @@
                 android:layout_margin="10dp"
                 android:onClick="ativarDesativarAlarme"
                 android:src="@mipmap/alarm_off" />
-
+-->
         </RelativeLayout>
         <!-- fechando o topo -->
 
@@ -301,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/green_finep"
                     android:gravity="center_horizontal"
-                    android:text="Doações"
+                    android:text="Aviso"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -310,18 +310,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="30dp"
-                    android:text="Clique abaixo para mais informações"
+                    android:text="Última atualização: almoço de meia hora"
                     android:gravity="center_horizontal"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
+                <!--
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:onClick="abrirPlay"
                     android:src="@mipmap/sacodedinheiro" />
-
+                -->
             </LinearLayout>
             <!-- fechando o painel esquerdo -->
 

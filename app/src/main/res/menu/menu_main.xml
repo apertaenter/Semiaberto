@@ -13,10 +13,12 @@
         android:checkable="true"
         android:checked="false"
         android:title="Horário núcleo flexível" />
+    <!-- DESATIVAR ALARME
     <item
         android:id="@+id/alarmeSonoroItem"
         android:checkable="true"
         android:checked="false"
         android:title="Alarme sonoro" />
+    -->
 
 </menu>

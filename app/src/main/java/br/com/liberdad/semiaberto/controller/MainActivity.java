@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
     private Expediente expediente;
 
     private PendingIntent pendingIntent;
-
+/* DESATIVAR ALARME
     private boolean alarme = false;
     private boolean sonoro;
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences configuracoes = getPreferences(MODE_PRIVATE);
         int contrato = configuracoes.getInt("contrato", 8);
         boolean nucleoFlex = configuracoes.getBoolean("nucleoFlex", false);
-        sonoro = configuracoes.getBoolean("sonoro", false);
+        /* sonoro = configuracoes.getBoolean("sonoro", false);  DESATIVAR ALARME */
 
         expediente = new Expediente(nucleoFlex);
 
@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 setJornada(jornadaDesejada);
                 bancoHorasSeekBar.setProgress(jornadaDesejada);
                 // Carregar alarme
+                /* DESATIVAR ALARME
                 alarme = configuracoes.getBoolean("alarme", false);
                 ImageView imageView = (ImageView) findViewById(R.id.alarmeImageView);
 
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     ativarAlarme(expediente.getUltimaSaidaProposta());
                     alarme = true;
                 }
+                 */
             }
         }
     }
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem contrato6Item = (MenuItem) menu.getItem(0);
         MenuItem nucleoFlexItem = (MenuItem) menu.getItem(1);
-        MenuItem sonoroItem = (MenuItem) menu.getItem(2);
+        /* MenuItem sonoroItem = (MenuItem) menu.getItem(2); DESATIVAR ALARME */
 
         if (expediente.getContrato() == Contrato.SEIS) {
             contrato6Item.setChecked(true);
@@ -147,13 +149,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             nucleoFlexItem.setChecked(false);
         }
-
+        /* DESATIVAR ALARME
         if (sonoro) {
             sonoroItem.setChecked(true);
         }else{
             sonoroItem.setChecked(false);
         }
-
+        */
         return true;
     }
 
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem contrato6Item = (MenuItem) menu.getItem(0);
         MenuItem nucleoFlexItem = (MenuItem) menu.getItem(1);
-        MenuItem alarmeSonoroItem = (MenuItem) menu.getItem(2);
+        /* MenuItem alarmeSonoroItem = (MenuItem) menu.getItem(2); DESATIVAR ALARME */
 
         switch(item.getItemId()){
             case R.id.contrato6Item: // contrato6Item
@@ -184,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     nucleoFlexItem.setChecked(true);
                 }
                 break;
+            /* DESATIVAR ALARME
             case R.id.alarmeSonoroItem: //alarmeSonoroItem
                 if (sonoro) {
                     sonoro = false;
@@ -193,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     alarmeSonoroItem.setChecked(true);
                 }
                 break;
+             */
         }
 
         return super.onOptionsItemSelected(item);
@@ -214,9 +218,11 @@ public class MainActivity extends AppCompatActivity {
 
         editor.putBoolean("nucleoFlex", expediente.isNucleoFlex());
 
+        /* DESATIVAR ALARME
         editor.putBoolean("sonoro", sonoro);
 
         editor.putBoolean("alarme", alarme);
+        */
 
         Set<String> marcacoes = new HashSet<String>();
 
@@ -396,11 +402,12 @@ public class MainActivity extends AppCompatActivity {
             SimpleDateFormat formata = new SimpleDateFormat("HH:mm");
             saioAsTextView.setText(formata.format(horario));
         }
-
+        /* DESATIVAR ALARME
         if (alarme){
             desativarAlarme();
             ativarAlarme(horario);
         }
+         */
     }
 
     private void verificarAtrasosEDebitos() {
@@ -475,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
         setJornada(bancoHorasSeekBar.getProgress());
 
     }
-
+/* DESATIVADO
     public void ativarDesativarAlarme(View view){
 
         ImageView imageView = (ImageView)findViewById(R.id.alarmeImageView);
@@ -510,7 +517,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
     }
-
+*/
     public void abrirPlay(View view) {
 
         final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object

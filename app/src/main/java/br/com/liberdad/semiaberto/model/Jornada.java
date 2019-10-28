@@ -26,7 +26,7 @@ public class Jornada {
     private void calcularAlmoco(){
 
         if (jornada > 6*60*60*1000)
-            almoco = 60*60*1000;
+            almoco = 30*60*1000; // MUDOU PRA MEIA HORA (30 minutos)
         else
             almoco = 15*60*1000;
     }
